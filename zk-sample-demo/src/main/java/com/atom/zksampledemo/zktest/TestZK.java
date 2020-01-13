@@ -1,11 +1,18 @@
 package com.atom.zksampledemo.zktest;
 
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static org.apache.zookeeper.ZooDefs.Ids.ANYONE_ID_UNSAFE;
 
 /**
  * @author Atom
@@ -57,6 +64,22 @@ public class TestZK {
         ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         final Stat stat = zooKeeper.setData("/a", "ddd".getBytes(), 0);
         System.out.println(stat);
+    }
+
+    /**
+     * 创建节点必须指定ACL
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testCreateNode() throws Exception {
+        /**
+         * This is a completely open ACL .
+         */
+        final ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(Collections.singletonList(new ACL(ZooDefs.Perms.ALL, ANYONE_ID_UNSAFE)));
+        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
+        final String s = zooKeeper.create("/b", "abc".getBytes(), OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        System.out.println(s);
 
     }
 }
