@@ -30,6 +30,10 @@ public class TestZK {
         zooKeeper.close();
     }
 
+    /**
+     * getChildren 方法只能列出指定路径的一层节点
+     * @throws Exception
+     */
     @Test
     public void ls() throws Exception {
         final List<String> children = zooKeeper.getChildren("/", null);
