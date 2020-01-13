@@ -8,6 +8,9 @@ import org.apache.zookeeper.CreateMode;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 /**
  * @author Atom
  */
@@ -37,11 +40,19 @@ public class CuratorTest {
      * @throws Exception
      */
     @Test
-    public void testCreate() throws Exception {
+    public void testCreateAndDelete() throws Exception {
 
         curatorFramework.create()
                 .creatingParentsIfNeeded()
                 .withMode(CreateMode.PERSISTENT)
                 .forPath("/curatorTest", "test".getBytes());
+
+        assertThat(curatorFramework.getData().forPath("/curatorTest"), equalTo("test".getBytes()));
+
+        curatorFramework.delete()
+                .guaranteed()
+                .deletingChildrenIfNeeded()
+                .forPath("/curatorTest");
     }
+
 }
