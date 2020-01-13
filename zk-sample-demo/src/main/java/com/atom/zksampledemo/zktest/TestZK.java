@@ -95,8 +95,39 @@ public class TestZK {
         System.err.println(new String(data));
 
         TimeUnit.MINUTES.sleep(2);
-
-
     }
 
+
+    /**
+     * 观察者模式 Watcher 监控节点变更，重复注册（持续监控）
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testWatch2() throws Exception {
+        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
+        Stat stat = new Stat();
+
+        final Watcher watcher = new Watcher() {
+            // 回调
+            @Override
+            public void process(WatchedEvent event) {
+                System.err.println("数据被修改了。。。。" + event.toString());
+                try {
+                    // 再次注册，就可以再次接到通知，把当前watcher传进来
+                    zooKeeper.getData("/b", this, stat);
+                } catch (KeeperException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        final byte[] data = zooKeeper.getData("/b", watcher, stat);
+
+        System.err.println(new String(data));
+
+        TimeUnit.MINUTES.sleep(2);
+    }
 }
