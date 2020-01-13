@@ -35,7 +35,7 @@ public class CuratorTest {
     }
 
     /**
-     * curator 创建节点
+     * curator 创建节点，删除节点
      *
      * @throws Exception
      */
