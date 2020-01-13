@@ -2,8 +2,11 @@ package com.atom.zksampledemo.zktest;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -12,9 +15,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestZK {
 
+    private static final String CONNECT_STRING = "localhost:2181";
+    private static final int SESSION_TIMEOUT = 5000;
+
+    private ZooKeeper zooKeeper;
+
+    @Before
+    public void before() throws IOException {
+        zooKeeper = new ZooKeeper(CONNECT_STRING, SESSION_TIMEOUT, null);
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        zooKeeper.close();
+    }
+
     @Test
     public void ls() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         final List<String> children = zooKeeper.getChildren("/", null);
         children.forEach(System.out::println);
     }
@@ -31,7 +48,6 @@ public class TestZK {
      * @throws Exception
      */
     public void ls(String path) throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         final List<String> children = zooKeeper.getChildren(path, null);
         if (children == null || children.isEmpty()) {
             return;
@@ -54,7 +70,6 @@ public class TestZK {
      */
     @Test
     public void testSetData() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         final Stat stat = zooKeeper.setData("/a", "ddd".getBytes(), 0);
         System.out.println(stat);
     }
@@ -71,7 +86,6 @@ public class TestZK {
          */
 //        final ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(Collections.singletonList(new ACL(ZooDefs.Perms.ALL, ANYONE_ID_UNSAFE)));
 
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         final String s = zooKeeper.create("/b", "abc".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         System.out.println(s);
     }
@@ -83,7 +97,6 @@ public class TestZK {
      */
     @Test
     public void testWatch() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         Stat stat = new Stat();
         final byte[] data = zooKeeper.getData("/b", new Watcher() {
             @Override
@@ -105,7 +118,6 @@ public class TestZK {
      */
     @Test
     public void testWatch2() throws Exception {
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
         Stat stat = new Stat();
 
         final Watcher watcher = new Watcher() {
