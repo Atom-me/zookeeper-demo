@@ -1,10 +1,16 @@
 package com.atom.zkclientdemo.zkclient;
 
+import com.atom.zkclientdemo.serializer.ZkStringSerializer;
+import org.I0Itec.zkclient.IZkChildListener;
+import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.ZkConnection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,13 +25,14 @@ public class ZKClientTest {
 
     @Before
     public void setUp() {
-        zkClient = new ZkClient(new ZkConnection(CONNECT_STRING));
+        zkClient = new ZkClient(new ZkConnection(CONNECT_STRING), 30_000, new ZkStringSerializer());
     }
-//
-//    @After
-//    public void after(){
-//        zkClient.close();
-//    }
+
+    @After
+    public void after() {
+        zkClient.close();
+    }
+
     /**
      * zkclient 支持递归创建节点 createPersistent
      */
@@ -46,5 +53,52 @@ public class ZKClientTest {
         assertThat(zkClient.exists("/testephemeral"), equalTo(true));
     }
 
+    /**
+     * zkclient 提供的API没有了watcher注册的功能。
+     * zkclient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
+     * subscribeChildChanges 这个接口只对节点列表变更监听，不对节点内容变更监听。
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void testSubscribeChildChanges() throws InterruptedException {
+        zkClient.createPersistent("/super", "1111");
+        zkClient.subscribeChildChanges("/super", new IZkChildListener() {
+            @Override
+            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
+                System.err.println("parentPath====>" + parentPath);
+                currentChilds.forEach(System.err::println);
+            }
+        });
+
+        TimeUnit.MINUTES.sleep(5);
+
+    }
+
+
+    /**
+     * zkclient 提供的API没有了watcher注册的功能。
+     * zkclient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
+     * subscribeDataChanges 这个接口只对节点内容变更和节点删除监听，不对节点列表变更监听。
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void testSubscribeDataChanges() throws InterruptedException {
+        zkClient.createPersistent("/super", "1111");
+        zkClient.subscribeDataChanges("/super", new IZkDataListener() {
+            @Override
+            public void handleDataChange(String dataPath, Object data) throws Exception {
+                System.err.println("datapath======" + dataPath);
+                System.err.println("data========" + data);
+            }
+
+            @Override
+            public void handleDataDeleted(String dataPath) throws Exception {
+                System.err.println("handleDataDeleted=====" + dataPath);
+            }
+        });
+        TimeUnit.MINUTES.sleep(5);
+    }
 
 }
