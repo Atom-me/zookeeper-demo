@@ -33,12 +33,11 @@ public class ZKClientTest {
     }
 
     /**
-     * zkclient创建临时节点
+     * zkclient创建临时节点,临时节点，session断开，自动删除
      */
     @Test
     public void testCreateEphemeral() {
         zkClient.createEphemeral("/testephemeral", "aaa");
         assertThat(zkClient.exists("/testephemeral"), equalTo(true));
-        zkClient.delete("/testephemeral");
     }
 }
