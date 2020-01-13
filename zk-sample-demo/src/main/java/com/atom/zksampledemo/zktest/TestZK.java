@@ -1,18 +1,11 @@
 package com.atom.zksampledemo.zktest;
 
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.data.ACL;
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static org.apache.zookeeper.ZooDefs.Ids.ANYONE_ID_UNSAFE;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Atom
@@ -83,5 +76,27 @@ public class TestZK {
         System.out.println(s);
     }
 
+    /**
+     * 观察者模式 Watcher 监控节点变更，只会触发一次
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testWatch() throws Exception {
+        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
+        Stat stat = new Stat();
+        final byte[] data = zooKeeper.getData("/b", new Watcher() {
+            @Override
+            public void process(WatchedEvent event) {
+                System.err.println("数据被修改了。。。。" + event.toString());
+            }
+        }, stat);
+
+        System.err.println(new String(data));
+
+        TimeUnit.MINUTES.sleep(2);
+
+
+    }
 
 }
