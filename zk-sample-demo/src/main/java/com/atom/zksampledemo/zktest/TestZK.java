@@ -76,10 +76,12 @@ public class TestZK {
         /**
          * This is a completely open ACL .
          */
-        final ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(Collections.singletonList(new ACL(ZooDefs.Perms.ALL, ANYONE_ID_UNSAFE)));
-        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
-        final String s = zooKeeper.create("/b", "abc".getBytes(), OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-        System.out.println(s);
+//        final ArrayList<ACL> OPEN_ACL_UNSAFE = new ArrayList<ACL>(Collections.singletonList(new ACL(ZooDefs.Perms.ALL, ANYONE_ID_UNSAFE)));
 
+        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
+        final String s = zooKeeper.create("/b", "abc".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        System.out.println(s);
     }
+
+
 }
