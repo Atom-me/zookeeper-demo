@@ -1,8 +1,10 @@
 package com.atom.zksampledemo.zktest;
 
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -43,5 +45,18 @@ public class TestZK {
                 ls(path + "/" + child);
             }
         }
+    }
+
+    /**
+     * 修改数据 需要设置version数据（乐观锁机制），版本不一致会修改失败
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testSetData() throws Exception {
+        ZooKeeper zooKeeper = new ZooKeeper("localhost:2181", 5000, null);
+        final Stat stat = zooKeeper.setData("/a", "ddd".getBytes(), 0);
+        System.out.println(stat);
+
     }
 }
