@@ -2,6 +2,7 @@ package com.atom.zkclientdemo.zkclient;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.I0Itec.zkclient.ZkConnection;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,11 @@ public class ZKClientTest {
     public void setUp() {
         zkClient = new ZkClient(new ZkConnection(CONNECT_STRING));
     }
-
+//
+//    @After
+//    public void after(){
+//        zkClient.close();
+//    }
     /**
      * zkclient 支持递归创建节点 createPersistent
      */
@@ -33,11 +38,13 @@ public class ZKClientTest {
     }
 
     /**
-     * zkclient创建临时节点,临时节点，session断开，自动删除
+     * zkclient创建临时节点,临时节点，session过期，创建连接的时候有一个过期时间，，不是断开，跟断开不是一个意思，自动删除
      */
     @Test
     public void testCreateEphemeral() {
         zkClient.createEphemeral("/testephemeral", "aaa");
         assertThat(zkClient.exists("/testephemeral"), equalTo(true));
     }
+
+
 }
