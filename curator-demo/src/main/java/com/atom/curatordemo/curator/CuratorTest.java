@@ -5,6 +5,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
+import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,5 +80,18 @@ public class CuratorTest {
         curatorFramework.setData()
                 .forPath("/persistent", "bbb".getBytes());
         assertThat(curatorFramework.getData().forPath("/persistent"), equalTo("bbb".getBytes()));
+    }
+
+    /**
+     * curator递归删除节点
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testRecursiveDelete() throws Exception {
+        curatorFramework.delete()
+                .guaranteed()
+                .deletingChildrenIfNeeded()
+                .forPath("/temp");
     }
 }
