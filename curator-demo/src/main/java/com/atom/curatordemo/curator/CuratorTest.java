@@ -56,4 +56,15 @@ public class CuratorTest {
     }
 
 
+    /**
+     * curator 读取节点数据
+     * @throws Exception
+     */
+    @Test
+    public void testRead() throws Exception {
+        final byte[] bytes = curatorFramework.getData()
+                .forPath("/persistent");
+        String result = new String(bytes);
+        System.out.println(result);
+    }
 }
