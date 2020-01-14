@@ -50,7 +50,7 @@ public class PathChildrenCacheTest {
      * <p>
      * PathChildrenCache 构造函数 boolean cacheData 是否缓冲节点内容数据。
      * <p>
-     * PathChildrenCache 只能监控一级子节点
+     * PathChildrenCache 只能监控一级子节点，无法对二级子节点进行事件监听
      *
      * @throws Exception
      */
