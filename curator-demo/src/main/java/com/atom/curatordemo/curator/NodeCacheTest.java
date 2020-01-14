@@ -21,6 +21,7 @@ import org.junit.Test;
  * NodeCache 可以监听到节点内容到变
  * NodeCache无法监听子节点变更
  * 2。子节点监听
+ * PathChildrenCache
  *
  * @author Atom
  */
@@ -51,7 +52,7 @@ public class NodeCacheTest {
      * @throws Exception
      */
     @Test
-    public void testListener() throws Exception {
+    public void testNodeCache() throws Exception {
         final NodeCache nodeCache = new NodeCache(curatorFramework, "/super", false);
         nodeCache.start(true);
         nodeCache.getListenable()
