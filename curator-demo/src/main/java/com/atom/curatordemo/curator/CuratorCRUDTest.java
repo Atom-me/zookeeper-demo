@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 /**
  * @author Atom
  */
-public class CuratorTest {
+public class CuratorCRUDTest {
 
     static final String CONNECT_STRING = "localhost:2181";
     static final int SESSION_TIMEOUT = 30_000;
