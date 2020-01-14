@@ -54,6 +54,18 @@ public class ZKClientTest {
     }
 
     /**
+     * zkclient创建持久节点
+     */
+    @Test
+    public void testCreatePersistent() {
+        zkClient.createPersistent("/persistent", "aaa");
+        assertThat(zkClient.exists("/persistent"), equalTo(true));
+        final Object o = zkClient.readData("/persistent");
+        assertThat(o.toString(), equalTo("aaa"));
+    }
+
+
+    /**
      * zkclient 提供的API没有了watcher注册的功能。
      * zkclient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
      * subscribeChildChanges 这个接口只对节点列表变更监听，不对节点内容变更监听。
