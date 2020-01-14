@@ -58,6 +58,7 @@ public class CuratorTest {
 
     /**
      * curator 读取节点数据
+     *
      * @throws Exception
      */
     @Test
@@ -66,5 +67,17 @@ public class CuratorTest {
                 .forPath("/persistent");
         String result = new String(bytes);
         System.out.println(result);
+    }
+
+    /**
+     * curator 修改节点数据
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testUpdate() throws Exception {
+        curatorFramework.setData()
+                .forPath("/persistent", "bbb".getBytes());
+        assertThat(curatorFramework.getData().forPath("/persistent"), equalTo("bbb".getBytes()));
     }
 }
