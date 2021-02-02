@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 /**
  * @author Atom
  */
-public class ZKClientTest {
+public class ZkClientTest {
 
     private static final String CONNECT_STRING = "localhost:2181";
     private ZkClient zkClient;
@@ -34,7 +34,7 @@ public class ZKClientTest {
     }
 
     /**
-     * zkclient 支持递归创建节点 createPersistent
+     * zkClient 支持递归创建节点 createPersistent
      */
     @Test
     public void testRecursiveCreate() {
@@ -45,7 +45,7 @@ public class ZKClientTest {
     }
 
     /**
-     * zkclient创建临时节点,临时节点，session过期，创建连接的时候有一个过期时间，，不是断开，跟断开不是一个意思，自动删除
+     * zkClient 创建临时节点,临时节点，session过期，创建连接的时候有一个过期时间，，不是断开，跟断开不是一个意思，自动删除
      */
     @Test
     public void testCreateEphemeral() {
@@ -54,7 +54,7 @@ public class ZKClientTest {
     }
 
     /**
-     * zkclient创建持久节点
+     * zkClient 创建持久节点
      */
     @Test
     public void testCreatePersistent() {
@@ -66,8 +66,8 @@ public class ZKClientTest {
 
 
     /**
-     * zkclient 提供的API没有了watcher注册的功能。
-     * zkclient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
+     * zkClient 提供的API没有了watcher注册的功能。
+     * zkClient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
      * subscribeChildChanges 这个接口只对节点列表变更监听，不对节点内容变更监听。
      *
      * @throws InterruptedException
@@ -89,8 +89,8 @@ public class ZKClientTest {
 
 
     /**
-     * zkclient 提供的API没有了watcher注册的功能。
-     * zkclient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
+     * zkClient 提供的API没有了watcher注册的功能。
+     * zkClient 引入了listener的概念，客户端可以通过注册相关的事件监听对zookeeper服务端事件对订阅，
      * subscribeDataChanges 这个接口只对节点内容变更和节点删除监听，不对节点列表变更监听。
      *
      * @throws InterruptedException
