@@ -1,4 +1,4 @@
-package com.atom.zksampledemo;
+package com.atom.zksample;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.atom.zksampledemo.zktest;
+package com.atom.zksample.zktest;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestZK {
 
-    private static final String CONNECT_STRING = "localhost:2181";
+    private static final String CONNECT_STRING = "192.168.56.101:2181,192.168.56.102:2181,192.168.56.103:2181";
     private static final int SESSION_TIMEOUT = 5000;
 
     private ZooKeeper zooKeeper;
@@ -38,7 +38,7 @@ public class TestZK {
     @Test
     public void ls() throws Exception {
         final List<String> children = zooKeeper.getChildren("/", null);
-        children.forEach(System.out::println);
+        children.forEach(System.err::println);
     }
 
     @Test
@@ -59,10 +59,10 @@ public class TestZK {
         }
         for (String child : children) {
             if (path.equals("/")) {
-                System.out.println(path + child);
+                System.err.println(path + child);
                 ls(path + child);
             } else {
-                System.out.println(path + "/" + child);
+                System.err.println(path + "/" + child);
                 ls(path + "/" + child);
             }
         }
