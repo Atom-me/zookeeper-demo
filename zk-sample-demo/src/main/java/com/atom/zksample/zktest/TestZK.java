@@ -96,7 +96,9 @@ public class TestZK {
     }
 
     /**
-     * 观察者模式 Watcher 监控节点变更，只会触发一次
+     * 观察者模式 Watcher 监控节点变更，只会触发一次.
+     * <p>
+     * Watcher 是观察者对象，用于回调的。
      *
      * @throws Exception
      */
