@@ -1,4 +1,4 @@
-package com.atom.curatordemo.curator;
+package com.atom.demo.curator;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;

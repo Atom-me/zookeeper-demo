@@ -1,11 +1,10 @@
-package com.atom.curatordemo.curator;
+package com.atom.demo.curator;
 
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
-import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 
